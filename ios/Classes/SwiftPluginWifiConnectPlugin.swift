@@ -28,6 +28,13 @@ public class SwiftPluginWifiConnectPlugin: NSObject, FlutterPlugin {
           connect(hotspotConfig: hotspotConfig, result: result)
           return
 
+        case "prefixConnect":
+          let args = try GetArgs(arguments: call.arguments)
+          let hotspotConfig = NEHotspotConfiguration.init(ssidPrefix: args["ssid"] as! String)
+          hotspotConfig.joinOnce = !(args["saveNetwork"] as! Bool);
+          connect(hotspotConfig: hotspotConfig, result: result)
+          return
+
         case "  ":
           guard #available(iOS 13.0, *) else {
             result(FlutterError(code: "iOS must be above 13", message: "Prefix connect doesn't work on iOS pre 13", details: nil))
